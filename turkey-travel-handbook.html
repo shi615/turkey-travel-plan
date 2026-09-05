@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Turkey Travel Handbook — Premium Editorial Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#17141F;
+  --ink-60:#5B5568;
+  --ink-35:#918BA0;
+  --paper:#F7F6FA;
+  --card:#FFFFFF;
+  --violet:#4B32C3;
+  --violet-soft:#EAE6FA;
+  --rose:#B0567A;
+  --line:#DEDAE8;
+  --maxw:820px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Inter","Noto Sans SC",-apple-system,BlinkMacSystemFont,"Hiragino Sans","Microsoft YaHei",sans-serif;
+  font-weight:400;
+  line-height:1.75;
+  font-size:15.5px;
+  letter-spacing:.01em;
+  -webkit-font-smoothing:antialiased;
+}
+.serif{font-family:"Instrument Serif","Songti SC",Georgia,serif;font-weight:400;letter-spacing:0}
+.mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+a{color:inherit}
+
+/* ---------- shell ---------- */
+.rail{
+  position:fixed;left:0;top:0;bottom:0;width:236px;
+  padding:40px 0 40px 36px;
+  display:none;flex-direction:column;gap:2px;
+  border-right:1px solid var(--line);
+  overflow-y:auto;z-index:40;background:var(--paper);
+}
+.rail-mark{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-35);margin-bottom:26px}
+.rail a{
+  display:flex;align-items:baseline;gap:10px;
+  text-decoration:none;color:var(--ink-60);font-size:13px;padding:5px 0;
+  transition:color .2s;
+}
+.rail a .n{font-size:10.5px;color:var(--ink-35);min-width:20px}
+.rail a:hover,.rail a.on{color:var(--violet)}
+.rail a.on .n{color:var(--violet)}
+
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 20px;border-bottom:1px solid var(--line);
+  background:rgba(247,246,250,.88);backdrop-filter:blur(14px);
+}
+.topbar .t{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase}
+.topbar button{
+  border:1px solid var(--line);background:var(--card);color:var(--ink);
+  border-radius:99px;padding:6px 14px;font:inherit;font-size:12px;cursor:pointer;
+}
+.drawer{
+  position:fixed;inset:0;z-index:60;background:var(--paper);
+  padding:24px 24px 60px;overflow-y:auto;display:none;
+}
+.drawer.open{display:block}
+.drawer a{display:flex;gap:12px;text-decoration:none;padding:11px 0;border-bottom:1px solid var(--line);font-size:15px}
+.drawer a .n{color:var(--ink-35);font-size:11px;min-width:22px;padding-top:4px}
+.drawer .close{margin:8px 0 20px}
+
+main{max-width:var(--maxw);margin:0 auto;padding:0 22px 120px}
+
+/* ---------- cover ---------- */
+.cover{padding:64px 0 56px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--violet);margin-bottom:22px}
+.cover h1{
+  font-family:"Instrument Serif","Songti SC",Georgia,serif;
+  font-size:clamp(52px,13.5vw,104px);line-height:.94;letter-spacing:-.02em;font-weight:400;
+}
+.cover h1 em{font-style:italic;color:var(--violet)}
+.cover .sub{margin-top:20px;font-size:14px;color:var(--ink-60);max-width:34em}
+.cover .meta{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:30px;font-size:12px;color:var(--ink-60)}
+.cover .meta b{font-weight:500;color:var(--ink)}
+
+/* route rail — signature */
+.route{
+  margin-top:40px;padding:22px 0 6px;
+  border-top:1px solid var(--line);
+}
+.route-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-35);margin-bottom:16px}
+.route-chain{display:flex;flex-wrap:wrap;align-items:center;gap:0 4px}
+.code{
+  font-family:"JetBrains Mono",monospace;font-size:15px;letter-spacing:.06em;
+  padding:3px 2px;position:relative;
+}
+.code.hub{color:var(--violet);font-weight:500}
+.code.dot{color:var(--rose);font-weight:500}
+.arrow{width:20px;height:1px;background:var(--line);position:relative;flex-shrink:0}
+.arrow::after{content:"";position:absolute;right:0;top:-2px;border-left:4px solid var(--line);border-top:2.5px solid transparent;border-bottom:2.5px solid transparent}
+
+/* ---------- sections ---------- */
+section{padding:56px 0;border-bottom:1px solid var(--line)}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:28px}
+.sec-head .num{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--violet);padding-top:4px}
+h2{font-family:"Instrument Serif",Georgia,serif;font-size:32px;font-weight:400;line-height:1.15;letter-spacing:-.01em}
+h3{font-size:14px;font-weight:600;letter-spacing:.02em;margin-bottom:10px}
+.lead{color:var(--ink-60);font-size:14.5px;max-width:42em;margin-bottom:26px}
+.sub-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-35);margin:34px 0 14px}
+.sub-label:first-child{margin-top:0}
+
+/* stat strip */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.stats div{background:var(--card);padding:18px 16px}
+.stats .v{font-family:"Instrument Serif",Georgia,serif;font-size:28px;line-height:1}
+.stats .k{font-size:11px;color:var(--ink-35);letter-spacing:.06em;margin-top:6px}
+
+/* boarding pass */
+.pass{background:var(--card);border:1px solid var(--line);padding:18px 18px 16px;margin-bottom:10px}
+.pass-top{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-35);margin-bottom:14px}
+.pass-top .fno{font-family:"JetBrains Mono",monospace;color:var(--violet);letter-spacing:.06em}
+.pass-body{display:flex;align-items:center;gap:14px}
+.pt{flex-shrink:0}
+.pt .time{font-family:"JetBrains Mono",monospace;font-size:19px;letter-spacing:-.01em}
+.pt .ap{font-size:11px;color:var(--ink-35);margin-top:2px;letter-spacing:.1em}
+.pt.right{text-align:right;margin-left:auto}
+.pline{flex:1;height:1px;background:repeating-linear-gradient(90deg,var(--line) 0 4px,transparent 4px 8px);position:relative}
+.pline span{position:absolute;left:50%;top:-9px;transform:translateX(-50%);background:var(--card);padding:0 6px;font-size:11px;color:var(--ink-35)}
+
+/* timeline */
+.day{display:grid;grid-template-columns:52px 1fr;gap:0 18px;position:relative}
+.day::before{content:"";position:absolute;left:8px;top:8px;bottom:0;width:1px;background:var(--line)}
+.day:last-child::before{bottom:auto;height:0}
+.day-key{position:relative}
+.day-key .dot{position:absolute;left:4px;top:7px;width:9px;height:9px;border-radius:50%;background:var(--violet);border:2px solid var(--paper);box-shadow:0 0 0 1px var(--violet)}
+.day-key .lbl{padding-left:24px;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--violet);line-height:1.9}
+.day-body{padding-bottom:30px}
+.day-body .date{font-size:11px;color:var(--ink-35);letter-spacing:.08em}
+.day-body h4{font-family:"Instrument Serif",Georgia,serif;font-size:22px;font-weight:400;margin:2px 0 12px}
+.stops{display:flex;flex-wrap:wrap;gap:7px}
+.stop{
+  font-size:12.5px;padding:4px 11px;border:1px solid var(--line);border-radius:99px;background:var(--card);
+}
+.stop.key{border-color:var(--violet);color:var(--violet)}
+.day.cap .day-key .dot{background:var(--rose);box-shadow:0 0 0 1px var(--rose)}
+.day.cap .day-key .lbl{color:var(--rose)}
+.day.cap .stop.key{border-color:var(--rose);color:var(--rose)}
+.note{font-size:12.5px;color:var(--ink-60);margin-top:10px}
+
+/* cards */
+.cards{display:grid;gap:12px}
+.card{background:var(--card);border:1px solid var(--line);padding:18px}
+.card .kicker{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-35)}
+.card h4{font-family:"Instrument Serif",Georgia,serif;font-size:21px;font-weight:400;margin:4px 0 8px;line-height:1.2}
+.card .nights{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--violet)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tag{font-size:11.5px;color:var(--ink-60);border:1px solid var(--line);border-radius:3px;padding:2px 8px}
+.stars{color:var(--violet);font-size:11px;letter-spacing:.16em}
+.maplink{
+  display:inline-flex;align-items:center;gap:6px;margin-top:14px;
+  font-size:12px;color:var(--violet);text-decoration:none;border-bottom:1px solid var(--violet-soft);padding-bottom:2px;
+}
+.maplink:hover{border-color:var(--violet)}
+
+/* place data sheet */
+.sheets{display:grid;gap:12px}
+.sheet{background:var(--card);border:1px solid var(--line);padding:18px;display:flex;flex-direction:column}
+.sheet h4{font-family:"Instrument Serif",Georgia,serif;font-size:22px;font-weight:400;line-height:1.15}
+.sheet-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.rate{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--violet);white-space:nowrap}
+.rate i{font-style:normal;color:var(--ink-35);font-size:10.5px}
+.sheet-cn{font-size:12px;color:var(--ink-35);margin:2px 0 14px}
+.sheet dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:13px;line-height:1.6}
+.sheet dt{color:var(--ink-35);white-space:nowrap}
+.sheet dd{color:var(--ink)}
+.sheet dd.soft{color:var(--ink-35)}
+.tip{font-size:12.5px;color:var(--ink-60);margin-top:14px;padding-top:12px;border-top:1px dotted var(--line)}
+.sheet .maplink{margin-top:auto;align-self:flex-start;padding-top:14px}
+.alert{background:var(--violet-soft);border-left:2px solid var(--violet);padding:14px 16px;margin-bottom:26px}
+.alert-t{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);margin-bottom:6px}
+.alert p{font-size:13.5px;color:var(--ink-60)}
+.src{font-size:11.5px;color:var(--ink-35);margin-top:20px}
+.times{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.times span{background:var(--card);text-align:center;padding:8px 0;font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:.02em}
+.times span.hi{background:var(--violet);color:#fff;font-weight:500;position:relative}
+.times span.hi::after{content:"你的班次";position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:3px;font-family:"Inter","Noto Sans SC",sans-serif;font-size:9px;letter-spacing:.1em;color:var(--violet);white-space:nowrap}
+
+/* place list */
+.places{border-top:1px solid var(--line)}
+.place{
+  display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:11px 0;border-bottom:1px solid var(--line);text-decoration:none;
+}
+.place:hover .pn{color:var(--violet)}
+.place .pn{font-size:14.5px;transition:color .2s}
+.place .px{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ink-35);letter-spacing:.08em;white-space:nowrap}
+
+/* two col */
+.two{display:grid;gap:26px}
+.panel{background:var(--card);border:1px solid var(--line);padding:18px}
+.panel .t{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-35);margin-bottom:12px}
+.rows{display:grid;gap:8px;font-size:13.5px}
+.rows div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dotted var(--line);padding-bottom:6px}
+.rows div:last-child{border:0;padding-bottom:0}
+.rows span:last-child{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--ink-60);text-align:right}
+
+ul.bul{list-style:none;display:grid;gap:7px;font-size:13.5px;color:var(--ink-60)}
+ul.bul li{padding-left:16px;position:relative}
+ul.bul li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:1px;background:var(--violet)}
+
+.pill-row{display:flex;flex-wrap:wrap;gap:7px}
+.pill{font-size:12.5px;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:5px 13px}
+
+/* checklist */
+.check{display:flex;align-items:center;gap:12px;padding:11px 2px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+.box{width:16px;height:16px;border:1px solid var(--ink-35);border-radius:3px;flex-shrink:0;position:relative;transition:.15s}
+.check.done .box{background:var(--violet);border-color:var(--violet)}
+.check.done .box::after{content:"";position:absolute;left:5px;top:1.5px;width:4px;height:8px;border:solid #fff;border-width:0 1.6px 1.6px 0;transform:rotate(42deg)}
+.check.done .lb{color:var(--ink-35);text-decoration:line-through}
+.lb{font-size:14px}
+.progress{display:flex;align-items:baseline;gap:10px;margin-bottom:18px}
+.progress .bar{flex:1;height:2px;background:var(--line);position:relative}
+.progress .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--violet);width:0;transition:width .3s}
+.progress .c{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--violet)}
+
+/* chapter index */
+.chapters{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.chapters div{background:var(--card);padding:13px 14px;font-size:13px;display:flex;gap:9px;align-items:baseline}
+.chapters div .cn{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink-35)}
+.chapters div.done{background:var(--violet-soft)}
+.chapters div.done .cn{color:var(--violet)}
+
+footer{padding:44px 0 0;font-size:12px;color:var(--ink-35);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media (min-width:900px){
+  .two{grid-template-columns:1fr 1fr}
+  .cards.g2{grid-template-columns:1fr 1fr}
+  .sheets{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:repeat(4,1fr)}
+}
+@media (min-width:1180px){
+  .rail{display:flex}
+  .topbar{display:none}
+  main{margin-left:236px;max-width:calc(var(--maxw) + 236px);padding-left:70px;padding-right:40px}
+  .cover{padding-top:88px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<nav class="rail" aria-label="章节导航">
+  <div class="rail-mark">Handbook v1.0</div>
+  <div id="railLinks"></div>
+</nav>
+
+<div class="topbar">
+  <span class="t serif">Turkey Handbook</span>
+  <button id="openDrawer" aria-expanded="false">目录</button>
+</div>
+
+<div class="drawer" id="drawer" role="dialog" aria-label="目录">
+  <button class="close" id="closeDrawer">关闭</button>
+  <div id="drawerLinks"></div>
+</div>
+
+<main>
+
+<header class="cover">
+  <div class="eyebrow">Premium Editorial Edition · Version 1.0</div>
+  <h1>Turkey<br>Travel <em>Handbook</em></h1>
+  <p class="sub">一本可以带着走的旅行手册，而不是一份攻略。八天七夜，两座城市，一条从关西出发、绕经曼谷、落在博斯普鲁斯与卡帕多奇亚之间的路线。</p>
+  <div class="meta">
+    <span><b>2026.09.17</b> 木 → <b>09.24</b> 木</span>
+    <span>8 天 7 夜</span>
+    <span>Istanbul · Cappadocia</span>
+    <span>最后更新 2026-07-23</span>
+  </div>
+
+  <div class="route">
+    <div class="route-label">Route</div>
+    <div class="route-chain">
+      <span class="code">KIX</span><span class="arrow"></span>
+      <span class="code">BKK</span><span class="arrow"></span>
+      <span class="code hub">IST</span><span class="arrow"></span>
+      <span class="code">SAW</span><span class="arrow"></span>
+      <span class="code dot">NAV</span><span class="arrow"></span>
+      <span class="code">SAW</span><span class="arrow"></span>
+      <span class="code hub">IST</span><span class="arrow"></span>
+      <span class="code">BKK</span><span class="arrow"></span>
+      <span class="code">KIX</span>
+    </div>
+  </div>
+</header>
+
+<section id="overview" data-title="行程概览">
+  <div class="sec-head"><span class="num">01</span><h2>行程概览</h2></div>
+  <div class="stats reveal">
+    <div><div class="v">8</div><div class="k">天 / 7 夜</div></div>
+    <div><div class="v">2</div><div class="k">座城市</div></div>
+    <div><div class="v">6</div><div class="k">段航班</div></div>
+    <div><div class="v">3</div><div class="k">间酒店</div></div>
+  </div>
+  <div class="sub-label">停留</div>
+  <div class="two">
+    <div class="panel reveal">
+      <div class="t">Istanbul · 约 3 天</div>
+      <ul class="bul">
+        <li>老城区三大件：Hagia Sophia、Blue Mosque、Basilica Cistern</li>
+        <li>Topkapi Palace 与两大集市</li>
+        <li>Galata、Balat、Bosphorus、Kadıköy、Ortaköy</li>
+      </ul>
+    </div>
+    <div class="panel reveal">
+      <div class="t">Cappadocia · 约 2 天</div>
+      <ul class="bul">
+        <li>热气球（Day 5 凌晨）</li>
+        <li>Göreme Open Air Museum、Uçhisar Castle</li>
+        <li>Love Valley、Pigeon Valley、Sunset Point、ATV、自助徒步（玫瑰谷+红谷）</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="flights" data-title="航班">
+  <div class="sec-head"><span class="num">02</span><h2>航班</h2></div>
+  <p class="lead">国际段走泰航曼谷转机，土耳其境内段由 SAW 往返 NAV。回程当天从 IST 出发，需预留 HAVAIST 约 2 小时。</p>
+
+  <div class="sub-label">去程 · 9/17 → 9/18</div>
+  <div class="pass reveal">
+    <div class="pass-top"><span>9/17 出发</span><span class="fno">TG 673</span></div>
+    <div class="pass-body">
+      <div class="pt"><div class="time">17:35</div><div class="ap">KIX</div></div>
+      <div class="pline"><span>✈</span></div>
+      <div class="pt right"><div class="time">23:50</div><div class="ap">BKK</div></div>
+    </div>
+  </div>
+  <div class="pass reveal">
+    <div class="pass-top"><span>转机 → 9/18 抵达</span><span class="fno">TG 901</span></div>
+    <div class="pass-body">
+      <div class="pt"><div class="time">BKK</div><div class="ap">曼谷</div></div>
+      <div class="pline"><span>✈</span></div>
+      <div class="pt right"><div class="time">05:40</div><div class="ap">IST</div></div>
+    </div>
+  </div>
+
+  <div class="sub-label">境内 · 往返卡帕多奇亚</div>
+  <div class="pass reveal">
+    <div class="pass-top"><span>9/21</span><span class="fno">VF 3268</span></div>
+    <div class="pass-body">
+      <div class="pt"><div class="time">07:45</div><div class="ap">SAW</div></div>
+      <div class="pline"><span>✈</span></div>
+      <div class="pt right"><div class="time">09:00</div><div class="ap">NAV</div></div>
+    </div>
+  </div>
+  <div class="pass reveal">
+    <div class="pass-top"><span>9/23</span><span class="fno">VF 3271</span></div>
+    <div class="pass-body">
+      <div class="pt"><div class="time">22:15</div><div class="ap">NAV</div></div>
+      <div class="pline"><span>✈</span></div>
+      <div class="pt right"><div class="time">23:45</div><div class="ap">SAW</div></div>
+    </div>
+  </div>
+
+  <div class="sub-label">回程 · 9/24 → 9/25</div>
+  <div class="pass reveal">
+    <div class="pass-top"><span>9/24 出发</span><span class="fno">TG 901</span></div>
+    <div class="pass-body">
+      <div class="pt"><div class="time">16:30</div><div class="ap">IST</div></div>
+      <div class="pline"><span>✈</span></div>
+      <div class="pt right"><div class="time">BKK</div><div class="ap">曼谷</div></div>
+    </div>
+  </div>
+  <div class="pass reveal">
+    <div class="pass-top"><span>转机 → 9/25 抵达</span><span class="fno">TG 672</span></div>
+    <div class="pass-body">
+      <div class="pt"><div class="time">BKK</div><div class="ap">曼谷</div></div>
+      <div class="pline"><span>✈</span></div>
+      <div class="pt right"><div class="time">15:55</div><div class="ap">KIX</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="hotels" data-title="酒店">
+  <div class="sec-head"><span class="num">03</span><h2>酒店</h2></div>
+  <div class="cards g2">
+    <div class="card reveal">
+      <div class="kicker">Istanbul · 老城</div>
+      <h4>Saruhan Hotel</h4>
+      <div class="nights">9/18 抵达当日入住 · 其余夜数待定</div>
+      <div class="stars">★ 4.7 · Google（644 条评价）</div>
+      <div class="tags"><span class="tag">Küçük Ayasofya 街区</span><span class="tag">HVL-13 终点步行几分钟</span><span class="tag">步行约 12 分钟到蓝色清真寺</span><span class="tag">屋顶早餐 · 海景露台</span></div>
+      <a class="maplink" href="https://maps.app.goo.gl/MgCfwVPg9YDJXJHi9" target="_blank" rel="noopener">Google Maps ↗</a>
+    </div>
+    <div class="card reveal">
+      <div class="kicker">Istanbul · Taksim</div>
+      <h4>Atik Suite Taksim</h4>
+      <div class="nights">伊斯坦布尔段 9/18–9/20 · 分配待定</div>
+      <div class="stars">★ 4.7 · Google（154 条评价）</div>
+      <div class="tags"><span class="tag">Gümüşsuyu / İnönü 大街</span><span class="tag">近塔克西姆广场</span><span class="tag">套房式房型</span><span class="tag">评价数较少、口碑两极</span></div>
+      <a class="maplink" href="https://maps.app.goo.gl/3geDy4LbXzGdXpycA" target="_blank" rel="noopener">Google Maps ↗</a>
+    </div>
+    <div class="card reveal">
+      <div class="kicker">Cappadocia</div>
+      <h4>Cappadocia Inn Cave Hotel</h4>
+      <div class="nights">9/21 · 9/22 — 2 晚</div>
+      <div class="stars">★★★★★</div>
+      <div class="tags"><span class="tag">洞穴酒店</span><span class="tag">热气球景观</span><span class="tag">Göreme</span></div>
+      <a class="maplink" href="https://maps.google.com/?q=Cappadocia+Inn+Cave+Hotel" target="_blank" rel="noopener">Google Maps ↗</a>
+    </div>
+    <div class="card reveal">
+      <div class="kicker">Sabiha Gökçen</div>
+      <h4>Nearport Hotel SAW</h4>
+      <div class="nights">9/23 — 1 晚</div>
+      <div class="stars">★★★★★</div>
+      <div class="tags"><span class="tag">深夜抵达 SAW</span><span class="tag">隔日 HAVAIST 方便</span><span class="tag">早餐不错</span></div>
+      <a class="maplink" href="https://maps.google.com/?q=Nearport+Hotel+Sabiha+Gokcen+Airport" target="_blank" rel="noopener">Google Maps ↗</a>
+    </div>
+  </div>
+</section>
+
+<section id="itinerary" data-title="每日行程">
+  <div class="sec-head"><span class="num">04</span><h2>每日行程</h2></div>
+  <p class="lead">紫色为伊斯坦布尔段，玫瑰色为卡帕多奇亚段。每天只标关键节点，现场按体力调整。</p>
+
+  <div class="day reveal">
+    <div class="day-key"><span class="dot"></span><span class="lbl">DAY 0</span></div>
+    <div class="day-body">
+      <div class="date">9/17 木</div>
+      <h4>出发与夜间转机</h4>
+      <div class="stops"><span class="stop key">KIX</span><span class="stop">BKK</span></div>
+      <p class="note">曼谷夜间转机，隔日清晨落地伊斯坦布尔。</p>
+    </div>
+  </div>
+
+  <div class="day reveal">
+    <div class="day-key"><span class="dot"></span><span class="lbl">DAY 1</span></div>
+    <div class="day-body">
+      <div class="date">9/18 金</div>
+      <h4>老城核心 · 半日制</h4>
+      <div class="stops"><span class="stop">IST 05:40</span><span class="stop key">HVL-13</span><span class="stop">Saruhan 入住</span><span class="stop key">Blue Mosque</span><span class="stop key">Hagia Sophia</span><span class="stop">Mivan 午餐</span><span class="stop">Basilica Cistern</span><span class="stop">午休</span><span class="stop">Old hipodrom 晚餐</span></div>
+      <p class="note">05:40 落地，机场 -2 层坐 HVL-13 直达 Çatladıkapı，步行几分钟到 Saruhan。过关＋车程算下来 08:00–08:30 才到，先寄存行李。<strong>周五午拜 12:00–14:30 两座清真寺对游客关闭，所以上午必须走完这两处。</strong>红眼航班后不排托普卡帕宫——下午回酒店休息，晚餐在门口的 Old hipodrom（★4.9）。</p>
+    </div>
+  </div>
+
+  <div class="day reveal">
+    <div class="day-key"><span class="dot"></span><span class="lbl">DAY 2</span></div>
+    <div class="day-body">
+      <div class="date">9/19 土</div>
+      <h4>宫殿 → 海岸 → 集市 → 加拉塔桥</h4>
+      <div class="stops"><span class="stop key">Topkapi 09:00</span><span class="stop">Gülhane</span><span class="stop">Sarayburnu</span><span class="stop">Eminönü</span><span class="stop">Spice Bazaar</span><span class="stop key">换汇</span><span class="stop">Grand Bazaar</span><span class="stop">Süleymaniye</span><span class="stop key">Galata Bridge 日落</span><span class="stop">Nasip 晚餐</span></div>
+      <p class="note">托普卡帕宫一开门就进，避开 30–60 分钟的队；含后宫要留 2.5–4 小时。出宫经 Gülhane 下坡到 <strong>Sarayburnu 海边</strong>，沿博斯普鲁斯岸线走到 Eminönü——全程顺地势、不折返。<strong>换汇必须今天办：</strong>ZUHA（大巴扎 Kuyumcular 街）和 Adonis（Tığcılar Hanı）周日都关门，Adonis 周六只到 14:00。大巴扎周日休市，今天去正确。</p>
+    </div>
+  </div>
+
+  <div class="day reveal">
+    <div class="day-key"><span class="dot"></span><span class="lbl">DAY 3</span></div>
+    <div class="day-body">
+      <div class="date">9/20 日</div>
+      <h4>换酒店 · 新城下坡 · 亚洲岸</h4>
+      <div class="stops"><span class="stop">Saruhan 退房</span><span class="stop">行李送 Taksim</span><span class="stop">Taksim</span><span class="stop">İstiklal</span><span class="stop key">Galata Tower</span><span class="stop">Karaköy</span><span class="stop">Park Kebap</span><span class="stop key">渡轮</span><span class="stop">Kadıköy · Moda</span></div>
+      <p class="note">上午先把行李送到 Taksim 的住处再出门。从 Taksim 一路下坡走 İstiklal → 加拉塔塔 → Yüksek Kaldırım 石阶 → Karaköy，午餐 Park Kebap（★4.9，₺200–600）。<strong>原定的 Tomtom Kebap 周日休息，已换掉。</strong>渡轮过海去 Kadıköy 和 Moda 海边，天黑前回欧洲岸。晚上不再重逛 İstiklal——明早 04:30 就得起。</p>
+    </div>
+  </div>
+
+  <div class="day cap reveal">
+    <div class="day-key"><span class="dot"></span><span class="lbl">DAY 4</span></div>
+    <div class="day-body">
+      <div class="date">9/21 月</div>
+      <h4>飞往卡帕多奇亚</h4>
+      <div class="stops"><span class="stop key">03:40 出门</span><span class="stop">Gezi Parkı</span><span class="stop key">HAVABUS 04:00</span><span class="stop">SAW</span><span class="stop">NAV</span><span class="stop key">İpek Tur 小巴</span><span class="stop">Cappadocia Inn</span><span class="stop key">Uçhisar Castle</span><span class="stop">城堡后谷地</span><span class="stop">Pigeon Valley 观景台</span><span class="stop">Love Valley</span></div>
+      <p class="note"><strong>VF3268 07:45 从 SAW 起飞。</strong>坐 HAVABUS：Taksim 发车点在 <strong>Gezi Parkı 地铁出口</strong>（不在酒店门口），Atik Suite 步行约 5 分钟。首班 03:00、之后每 30 分钟一班，车程约 90 分钟、票价约 440–485 TL。国内线提前 1.5 小时到，只能赶 <strong>04:00 那班</strong>——约 03:40 出门。没有早餐、没有从容退房，前一晚办好早退、备好现金买票。<br><br>NAV 落地后走出口坐<strong>机场接驳小巴（İpek Tur Airport Shuttle）</strong>，直送 Cappadocia Inn Cave Hotel 门口，约 40 分钟、每人约 €8–10。NAV 没有公共巴士，出口就这一种共乘小巴；按预订名单发车，<strong>务必提前订好或让酒店代订、报上 Cappadocia Inn 名字</strong>，司机会在到达口举牌等。<br><br><strong>下午 · 乌奇希萨尔一带</strong>（距 Göreme 车程 10 分钟，体力轻）：先上 <strong>Uçhisar Castle</strong> 看全景，城堡背后有一片免费谷地（Photo spot），废弃洞穴屋和仙人烟囱可随意走；下方就是 Pigeon Valley 观景台。傍晚回到爱情谷方向看日落。当天以适应＋轻度活动为主，别排太满。</p>
+    </div>
+  </div>
+
+  <div class="day cap reveal">
+    <div class="day-key"><span class="dot"></span><span class="lbl">DAY 5</span></div>
+    <div class="day-body">
+      <div class="date">9/22 火</div>
+      <h4>热气球日 · 格雷梅镇</h4>
+      <div class="stops"><span class="stop key">Hot Air Balloon</span><span class="stop">补觉</span><span class="stop key">Göreme Open Air Museum</span><span class="stop">Göreme Panorama</span><span class="stop">镇中心散步</span><span class="stop">ATV</span></div>
+      <p class="note">气球凌晨集合、约 8:30 送回，气温 10–13℃ 务必带外套；<strong>能否升空由当日气象许可决定，取消并不罕见</strong>——把 Sunset Point / Panorama 当备选观景点。回酒店补觉后，中午起逛 Göreme 镇，全程步行：<strong>Göreme Open Air Museum</strong>（UNESCO 洞窟教堂群，距镇中心步行 25 分钟，想看最好的壁画补票进暗教堂 Karanlık Kilise）→ <strong>Göreme Panorama View</strong> 俯瞰全镇 → 镇中心咖啡与纪念品。午后 ATV 也在这天。</p>
+    </div>
+  </div>
+
+  <div class="day cap reveal">
+    <div class="day-key"><span class="dot"></span><span class="lbl">DAY 6</span></div>
+    <div class="day-body">
+      <div class="date">9/23 水</div>
+      <h4>自助徒步：玫瑰谷 + 红谷</h4>
+      <div class="stops"><span class="stop">Göreme 出发</span><span class="stop">露天博物馆</span><span class="stop key">Meskendir 入口</span><span class="stop key">玫瑰谷</span><span class="stop">Column Church</span><span class="stop key">红谷</span><span class="stop">红谷日落点</span><span class="stop">NAV → SAW</span></div>
+      <p class="note"><strong>不跟团、自己走。</strong>从 Göreme 镇中心步行经露天博物馆到 Meskendir 入口约 2–3 km，接玫瑰谷 → 红谷，谷内 5–7.7 km、玩停 3–5 小时。看点：粉红／橙红岩壁、崖里的拜占庭洞窟教堂（Column Church、Haçlı Kilise），红谷有藤蔓下的鲜榨果汁摊。<strong>下午光线最暖，红谷日落点是全卡帕多奇亚最好的日落之一。</strong>中等强度，几段陡、碎石多，穿抓地好的鞋、每人 1 升水。<strong>务必下载离线轨迹（AllTrails / Maps.me）——谷里岔路多、几乎没路牌，咖啡摊常画假路标引客，别信现场指路。</strong><br><br>提醒：不跟团意味着<strong>南边的 Ihlara 峡谷、Derinkuyu 地下城、Selime 修道院这次去不了</strong>（都在几十公里外、没车无法自助）。想看的话得单独包车或另约一日团。<br><br>徒步结束回酒店取行李，当晚 <strong>VF3271 22:15 从 NAV 起飞、23:45 落地 SAW</strong>，住机场旁 Nearport。NAV 无公共巴士，提前订好 İpek Tur 小巴或包车去机场，别拖到最后。</p>
+    </div>
+  </div>
+
+  <div class="day reveal">
+    <div class="day-key"><span class="dot"></span><span class="lbl">DAY 7</span></div>
+    <div class="day-body">
+      <div class="date">9/24 木</div>
+      <h4>返程</h4>
+      <div class="stops"><span class="stop">Nearport</span><span class="stop key">HAVAIST</span><span class="stop">IST</span><span class="stop">Japan</span></div>
+      <p class="note">SAW → IST 约 2 小时，按 16:30 起飞倒推出发时间。</p>
+    </div>
+  </div>
+</section>
+
+<section id="places" data-title="景点">
+  <div class="sec-head"><span class="num">05</span><h2>景点</h2></div>
+  <p class="lead">每个地点一张统一资料卡：地图、评分、开放时间、门票、建议停留、拍摄时段与最近车站。评分与营业时间来自 Google Maps，票价为 2026 年外国游客价，出发前请再确认一次。</p>
+
+  <div class="alert reveal">
+    <div class="alert-t">Day 1 是周五</div>
+    <p>圣索菲亚与蓝色清真寺每天有 5 次礼拜时间暂停游客参观，其中周五中午（约 12:00–14:30）关闭时间最长。9/18 抵达当天建议把这两处安排在上午或 15:00 之后。</p>
+  </div>
+
+  <div class="sub-label">Istanbul</div>
+  <div class="sheets" id="istPlaces"></div>
+
+  <div class="sub-label">Cappadocia</div>
+  <div class="sheets" id="capPlaces"></div>
+
+  <p class="src">评分、营业时间与地址数据来自 Google Maps；门票价格来自各景点 2026 年公开票价信息。</p>
+</section>
+
+<section id="food" data-title="餐厅">
+  <div class="sec-head"><span class="num">06</span><h2>餐厅</h2></div>
+  <p class="lead">五家备选。评分差距不小，点单前值得先看一眼实际口碑与价格区间。</p>
+  <div class="sheets" id="foodPlaces"></div>
+  <p class="src">评分与营业时间来自 Google Maps。</p>
+</section>
+
+<section id="transport" data-title="交通">
+  <div class="sec-head"><span class="num">07</span><h2>交通</h2></div>
+  <div class="alert reveal">
+    <div class="alert-t">Day 1 到达方案 · HAVAİST HVL-13</div>
+    <p>IST → Çatladıkapı（Sultanahmet）直达，终点距 Saruhan Hotel 步行几分钟。停靠顺序：Çatladıkapı（Nikah Sarayı 对面 İETT 站）· Sirkeci · Şişhane 6 · Türabi Baba Parkı · Hasköy Parkı · Miniatürk · İstanbul Havalimanı。票价 470 TL，官网／App 购票，或上车用 Istanbulkart、信用卡、借记卡支付——<strong>车上不收现金</strong>。乘车点在到达层下方 -2 楼。</p>
+  </div>
+  <div class="two">
+    <div class="panel reveal">
+      <div class="t">路段与方式</div>
+      <div class="rows">
+        <div><span>IST → Sultanahmet</span><span>HVL-13 · 约 110 分钟</span></div>
+        <div><span>Taksim → SAW</span><span>HAVABUS · 约 90 分钟</span></div>
+        <div><span>NAV → Göreme</span><span>İpek Tur 小巴 · 约 40 分钟</span></div>
+        <div><span>SAW → IST</span><span>HAVAIST · 约 2h</span></div>
+      </div>
+      <a class="maplink" href="https://maps.app.goo.gl/vusxxe7MwYauuyN9A" target="_blank" rel="noopener">IST → Saruhan 路线 ↗</a>
+    </div>
+    <div class="panel reveal">
+      <div class="t">备注</div>
+      <ul class="bul">
+        <li>机场首班约 05:00 发车，之后大致每小时一班；05:40 落地赶得上</li>
+        <li>这条线 2026 年 5 月才以新路线复开，网上仍有「没有直达 Sultanahmet 巴士」的旧攻略，以 hava.ist 的「Sefer Saatleri」为准</li>
+        <li>若某晚改住 Taksim，机场段应改乘 HVL-9</li>
+        <li>9/21 Taksim → SAW 坐 HAVABUS，发车点在 Gezi Parkı 地铁出口，首班 03:00、每 30 分钟一班、约 90 分钟、440–485 TL</li>
+        <li>NAV 没有公共巴士，出口的 İpek Tur 共乘小巴按预订名单发车，落地前先订好、送到酒店门口</li>
+        <li>SAW → IST 预计约 2 小时，回程当天需提前出发</li>
+        <li>市区打车推荐 BiTaksi，避免路边议价</li>
+      </ul>
+      <a class="maplink" href="https://hava.ist/sefer-saatleri.php" target="_blank" rel="noopener">HAVAİST 班次表 ↗</a>
+    </div>
+  </div>
+
+  <div class="sub-label">HAVABUS 时刻表 · Taksim ⇄ SAW</div>
+  <p class="note" style="margin-bottom:14px">发车间隔 30 分钟。<strong>01:00–04:00 之间只为航班延误的旅客发车</strong>，因此对常规出行来说 04:00 是 Taksim → SAW 第一班可靠的车。你的 VF3268 07:45 起飞，务必赶 <strong>04:00</strong> 那班（下方高亮）。</p>
+  <div class="two">
+    <div class="panel reveal">
+      <div class="t">→ Taksim → Sabiha Gökçen</div>
+      <div class="times" id="havabusTo"></div>
+    </div>
+    <div class="panel reveal">
+      <div class="t">← Sabiha Gökçen → Taksim</div>
+      <div class="times" id="havabusFrom"></div>
+    </div>
+  </div>
+  <p class="src">时刻来自 HAVABUS 官方班次表（用户提供）。出发前请再于 havabus.com 确认当日班次。</p>
+</section>
+
+<section id="balloon" data-title="热气球与摄影">
+  <div class="sec-head"><span class="num">08</span><h2>热气球与摄影</h2></div>
+  <div class="two">
+    <div class="panel reveal">
+      <div class="t">Hot Air Balloon · Day 5 凌晨</div>
+      <ul class="bul">
+        <li>推荐公司与预订方式（待补）</li>
+        <li>注意事项与集合流程</li>
+        <li>穿着建议：凌晨 10–13℃，外套必备</li>
+        <li>摄影建议与机位</li>
+        <li>天气取消后的替代方案</li>
+      </ul>
+    </div>
+    <div class="panel reveal">
+      <div class="t">摄影装备</div>
+      <div class="rows">
+        <div><span>广角</span><span>16–35mm</span></div>
+        <div><span>标准</span><span>24–70mm</span></div>
+        <div><span>长焦</span><span>70–200mm</span></div>
+        <div><span>手机</span><span>建议稳定器</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="practical" data-title="实用信息">
+  <div class="sec-head"><span class="num">09</span><h2>实用信息</h2></div>
+
+  <div class="sub-label">天气</div>
+  <div class="two">
+    <div class="panel reveal">
+      <div class="t">Istanbul</div>
+      <div class="rows">
+        <div><span>白天</span><span>25–29 ℃</span></div>
+        <div><span>夜间</span><span>18–21 ℃</span></div>
+      </div>
+    </div>
+    <div class="panel reveal">
+      <div class="t">Cappadocia</div>
+      <div class="rows">
+        <div><span>白天</span><span>22–27 ℃</span></div>
+        <div><span>凌晨</span><span>10–13 ℃</span></div>
+      </div>
+      <p class="note">温差大，务必准备外套。</p>
+    </div>
+  </div>
+
+  <div class="sub-label">推荐 App</div>
+  <div class="pill-row reveal">
+    <span class="pill">Google Maps</span><span class="pill">Google Translate</span><span class="pill">WhatsApp</span>
+    <span class="pill">BiTaksi</span><span class="pill">Booking</span><span class="pill">Trip.com</span><span class="pill">HAVAIST</span>
+  </div>
+
+  <div class="sub-label">换汇</div>
+  <div class="alert reveal">
+    <div class="alert-t">务必安排在 9/19（周六）中午前</div>
+    <p>大巴扎一带的两家换汇店周日都不营业，Adonis 周六只到 14:00。错过就只剩 Sirkeci 的 GURAY 可用。</p>
+  </div>
+  <div class="two">
+    <div class="panel reveal">
+      <div class="t">ZUHA DÖVİZ · Adonis</div>
+      <div class="rows">
+        <div><span>ZUHA（Kuyumcular 街）</span><span>8:30–18:00 · 周日休</span></div>
+        <div><span>Adonis（Tığcılar Hanı）</span><span>10:00–17:00 · 六至14:00 · 周日休</span></div>
+      </div>
+      <p class="note">两家都在大巴扎周边，Adonis 藏在商栈里、不好找。ZUHA 近期评论提到买卖价差变大，现场先比一下牌价。</p>
+    </div>
+    <div class="panel reveal">
+      <div class="t">GURAY DOVIZ · 兜底选项</div>
+      <div class="rows">
+        <div><span>Hamidiye 街（Sirkeci）</span><span>8:00–22:00 · 每日</span></div>
+      </div>
+      <p class="note">全周营业、时段最长，牌价评价不错。柜台用点钞机当面清点。</p>
+    </div>
+  </div>
+
+  <div class="sub-label">支付与预算</div>
+  <div class="two">
+    <div class="panel reveal">
+      <div class="t">支付比例</div>
+      <div class="rows">
+        <div><span>信用卡</span><span>70%</span></div>
+        <div><span>现金</span><span>30%</span></div>
+      </div>
+    </div>
+    <div class="panel reveal">
+      <div class="t">预算</div>
+      <div class="rows">
+        <div><span>预计</span><span>15–22 万日元</span></div>
+        <div><span>说明</span><span>不含国际机票</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="checklist" data-title="行李清单">
+  <div class="sec-head"><span class="num">10</span><h2>行李清单</h2></div>
+  <div class="progress"><span class="c" id="cnt">0 / 9</span><span class="bar"><i id="bar"></i></span></div>
+  <div id="list"></div>
+</section>
+
+<section id="production" data-title="制作进度">
+  <div class="sec-head"><span class="num">11</span><h2>制作进度</h2></div>
+  <p class="lead">最终手册预计 70–80 页、17 章，按章制作后合并为《Turkey Travel Handbook — Premium Editorial Edition v1.0》。紫底为已完成章节。</p>
+  <div class="chapters reveal">
+    <div class="done"><span class="cn">00</span>Cover</div>
+    <div class="done"><span class="cn">01</span>Before You Go</div>
+    <div><span class="cn">02</span>Turkey Overview</div>
+    <div><span class="cn">03</span>Flight Guide</div>
+    <div><span class="cn">04</span>Hotel Guide</div>
+    <div><span class="cn">05</span>Day 1</div>
+    <div><span class="cn">06</span>Day 2</div>
+    <div><span class="cn">07</span>Day 3</div>
+    <div><span class="cn">08</span>Day 4</div>
+    <div><span class="cn">09</span>Day 5</div>
+    <div><span class="cn">10</span>Day 6</div>
+    <div><span class="cn">11</span>Return Guide</div>
+    <div><span class="cn">12</span>Food Guide</div>
+    <div><span class="cn">13</span>Transportation</div>
+    <div><span class="cn">14</span>Photography</div>
+    <div><span class="cn">15</span>Shopping</div>
+    <div><span class="cn">16</span>Emergency</div>
+    <div><span class="cn">17</span>Checklist</div>
+  </div>
+
+  <div class="sub-label">输出形式</div>
+  <div class="pill-row reveal">
+    <span class="pill">Print PDF · A4 Landscape · 300dpi</span>
+    <span class="pill">iPad 阅读版</span>
+    <span class="pill">Markdown 源文件</span>
+    <span class="pill">Notion 版</span>
+  </div>
+
+  <div class="sub-label">已完成</div>
+  <ul class="bul reveal">
+    <li>航班规划 · 酒店选择 · 每日路线</li>
+    <li>HAVAIST 规划 · Nearport 住宿方案 · 酒店评价</li>
+    <li>第一章 Before You Go · 第一张信息图 · 最终目录设计</li>
+  </ul>
+</section>
+
+<footer>
+  <span>Turkey Travel Handbook · Premium Editorial Edition</span>
+  <span class="mono">v1.0 — 2026.07.23</span>
+</footer>
+
+</main>
+
+<script>
+(function(){
+  // ---- nav generation ----
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section[data-title]'));
+  var rail = document.getElementById('railLinks');
+  var draw = document.getElementById('drawerLinks');
+  secs.forEach(function(s,i){
+    var n = String(i+1).padStart(2,'0');
+    var html = '<a href="#'+s.id+'" data-for="'+s.id+'"><span class="n">'+n+'</span><span>'+s.dataset.title+'</span></a>';
+    rail.insertAdjacentHTML('beforeend', html);
+    draw.insertAdjacentHTML('beforeend', html);
+  });
+
+  // ---- drawer ----
+  var drawer = document.getElementById('drawer');
+  var openBtn = document.getElementById('openDrawer');
+  function setDrawer(v){
+    drawer.classList.toggle('open', v);
+    openBtn.setAttribute('aria-expanded', String(v));
+    document.body.style.overflow = v ? 'hidden' : '';
+  }
+  openBtn.addEventListener('click', function(){ setDrawer(true); });
+  document.getElementById('closeDrawer').addEventListener('click', function(){ setDrawer(false); });
+  draw.addEventListener('click', function(e){ if(e.target.closest('a')) setDrawer(false); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') setDrawer(false); });
+
+  // ---- active section ----
+  var railLinks = rail.querySelectorAll('a');
+  var spy = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        railLinks.forEach(function(a){ a.classList.toggle('on', a.dataset.for === en.target.id); });
+      }
+    });
+  }, {rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(function(s){ spy.observe(s); });
+
+  // ---- place data sheets ----
+  var IST = [
+    {n:'Hagia Sophia', cn:'圣索菲亚大清真寺', q:'Hagia+Sophia+Istanbul', r:'4.8', rc:'13.5万+',
+     h:'4–9 月 08:00–19:30；每日 5 次礼拜暂停，周五约 12:00–14:30 关闭',
+     t:'€25（仅二层回廊；伊斯坦布尔博物馆通票不适用）', s:'1–1.5 小时', p:'上午 8:30，人少光柔',
+     c:'Seven Hills Restaurant（步行 3 分钟）', st:'Sultanahmet（T1 有轨电车）',
+     tip:'游客入口在东北侧、托普卡帕宫正门对面，不是苏丹艾哈迈德广场那道门。需脱鞋，着装过肩过膝，女性需头巾（现场可借）。一层为礼拜区，游客不可进入。'},
+    {n:'Blue Mosque', cn:'蓝色清真寺 / Sultan Ahmet Camii', q:'Blue+Mosque+Istanbul', r:'4.7', rc:'12万+',
+     h:'礼拜时间以外开放，周五中午关闭时间最长', t:'免费', s:'45 分钟', p:'中庭里拍六座宣礼塔；夜间打灯后另有一种样子',
+     c:'广场对面小吃摊', st:'Sultanahmet（T1）',
+     tip:'入口提供免费头巾与长裙，排队通常走得很快。'},
+    {n:'Basilica Cistern', cn:'地下水宫', q:'Basilica+Cistern+Istanbul', r:'4.6', rc:'9.5万+',
+     h:'09:00–18:30；夜场 19:30–22:00', t:'日间 1,950 TL／夜场 3,000 TL；博物馆通票不适用', s:'30–45 分钟',
+     p:'最深处的两颗美杜莎柱头', c:'出口即 Sultanahmet 商圈', st:'Sultanahmet（T1）',
+     tip:'建议线上先买票。9:00 开门时门口已排长队，越早越好；夜场票只能现场买。'},
+    {n:'Topkapi Palace', cn:'托普卡帕宫', q:'Topkapi+Palace', r:'4.6', rc:'11.9万+',
+     h:'09:00–18:00（夏季，最后入场 17:00）·周二闭馆', t:'2,750 TL 联票（宫殿＋后宫＋圣伊琳娜教堂）',
+     s:'2.5–4 小时', p:'第四庭院平台俯瞰博斯普鲁斯', c:'宫内 Konyalı 餐厅', st:'Gülhane 或 Sultanahmet（T1）',
+     tip:'圣物室禁止拍照，且需着装得体。售票处只收刷卡。9/19 是周六，避开了周二闭馆日。'},
+    {n:'İBB Sarayburnu Parkı', cn:'萨拉伊角海滨公园', q:'İBB+Sarayburnu+Parkı+Istanbul', r:'4.8', rc:'624',
+     h:'全天', t:'免费', s:'30–45 分钟', p:'博斯普鲁斯入海口与亚洲岸对景',
+     c:'公园内茶座', st:'Gülhane（T1）下坡步行',
+     tip:'在半岛最尖端、Gülhane 公园下方。托普卡帕宫出来一路下坡到这里，再沿海岸线走到 Eminönü，全程顺路不折返。'},
+    {n:'Grand Bazaar', cn:'大巴扎', q:'Grand+Bazaar+Istanbul', r:'4.4', rc:'18.6万+',
+     h:'08:30–19:00 · 周日休市', t:'免费', s:'1–2 小时', p:'主通道 Kalpakçılar 街的拱顶',
+     c:'市场内多家土耳其咖啡摊', st:'Beyazıt-Kapalıçarşı（T1）',
+     tip:'周日闭市，9/19 周六去正好。开价通常是心理价的 2–3 倍。'},
+    {n:'Spice Bazaar', cn:'埃及香料市场', q:'Spice+Bazaar+Istanbul', r:'4.5', rc:'19万+',
+     h:'08:00–19:30 · 每日', t:'免费', s:'45 分钟', p:'门口的香料摊配色',
+     c:'旁边的 Rüstem Paşa 街小店', st:'Eminönü（T1）',
+     tip:'与加拉塔桥、Hamdi 餐厅几乎在同一街区，可以串成一段。'},
+    {n:'Galata Tower', cn:'加拉塔塔', q:'Galata+Tower', r:'4.6', rc:'21万+',
+     h:'08:30–23:00（最后入场 22:00）·全年无休', t:'€30；伊斯坦布尔博物馆通票有效', s:'45 分钟–1 小时',
+     p:'日落最美但也最挤；08:30 开门时观景台几乎空着', c:'塔下 Galip Dede 街咖啡馆', st:'Şişhane（M2）或 Karaköy（T1）',
+     tip:'观景台面积不大，旺季日落前排队可能很久。傍晚 18:15–18:30 前后售票口会有交接空档。'},
+    {n:'Balat', cn:'巴拉特彩色街区', q:'Balat+Istanbul', r:'—', rc:'街区',
+     h:'全天', t:'免费', s:'2 小时', p:'Merdivenli Yokuş 阶梯街，上午顺光',
+     c:'区内独立咖啡馆密度很高', st:'Fener/Balat 渡轮码头，或 Eminönü 乘巴士',
+     tip:'很多“彩色房子”其实是私人住宅，拍照注意分寸。'},
+    {n:'Bosphorus Cruise', cn:'博斯普鲁斯海峡游船（Eminönü 码头）', q:'Eminönü+Pier', r:'4.5', rc:'9千+',
+     h:'班次全天，短程游船约每小时一班', t:'船票另计，市政渡轮最便宜', s:'1.5–2 小时',
+     p:'出发后右手边的老城天际线', c:'码头边的鲭鱼三明治摊', st:'Eminönü（T1）',
+     tip:'市政 Şehir Hatları 的往返航线比私营“观光船”便宜很多，用 Istanbulkart 即可。'},
+    {n:'Ortaköy', cn:'奥尔塔科伊清真寺', q:'Ortaköy+Mosque', r:'4.8', rc:'4.4万+',
+     h:'礼拜时间以外开放', t:'免费', s:'1 小时', p:'黄昏，清真寺与大桥同框',
+     c:'广场上的 kumpir（烤土豆）摊', st:'Beşiktaş 换乘巴士',
+     tip:'傍晚人最多但光线最好，和 Kadıköy 同日安排会比较赶。'},
+    {n:'Kadıköy', cn:'亚洲岸市集街区', q:'Kadıköy+Istanbul', r:'—', rc:'街区',
+     h:'全天，餐厅夜间热闹', t:'免费（渡轮票另计）', s:'2–3 小时', p:'Moda 海岸线日落',
+     c:'鱼市周边小酒馆密集', st:'Eminönü / Karaköy 渡轮至 Kadıköy',
+     tip:'从欧洲岸坐渡轮过去本身就是一段风景，约 20 分钟。'}
+  ];
+  var CAP = [
+    {n:'Love Valley', cn:'爱情谷', q:'Love+Valley+Cappadocia', r:'4.7', rc:'800+',
+     h:'全天', t:'免费', s:'30–45 分钟', p:'日出后气球降低高度时',
+     c:'谷边有几家观景咖啡摊', st:'Göreme 出发，ATV 或包车约 10 分钟',
+     tip:'停车场在谷的上方，要走一段陡坡才能下到岩柱旁边。'},
+    {n:'Pigeon Valley', cn:'鸽子谷', q:'Pigeon+Valley+Cappadocia', r:'4.6', rc:'1.9万+',
+     h:'24 小时', t:'免费', s:'徒步 1 小时（Göreme→Uçhisar）', p:'Uçhisar 一侧的观景台',
+     c:'观景台旁的纪念品摊与茶座', st:'Göreme–Uçhisar 公路中段',
+     tip:'谷边碎石多、坡陡易滑，拍照别靠近崖边；穿抓地好的鞋。'},
+    {n:'Göreme Open Air Museum', cn:'格雷梅露天博物馆（UNESCO）', q:'Göreme+Open+Air+Museum', r:'4.6', rc:'2.8万+',
+     h:'08:00–17:00 · 每日', t:'€20；暗教堂（Karanlık Kilise）另收约 €6；土耳其博物馆通票有效', s:'1.5–2 小时',
+     p:'洞窟教堂内部禁止拍照，外景在入口左侧小丘', c:'门口外有咖啡与纪念品店', st:'距 Göreme 镇中心步行约 25 分钟',
+     tip:'壁画保存靠低照度，洞内一律禁闪光。想看最好的壁画就补票进暗教堂。'},
+    {n:'Uçhisar Castle', cn:'乌奇希萨尔城堡', q:'Uçhisar+Castle', r:'4.6', rc:'3.2万+',
+     h:'约 07:00–21:00（季节调整）', t:'约 €9；博物馆通票不适用', s:'45 分钟–1 小时',
+     p:'顶部 360° 全景，日落最佳', c:'入口 200 米内多家餐厅咖啡', st:'Göreme 出发车程约 10 分钟',
+     tip:'需要爬一段石阶，但有扶手、修得平整。镇上停车约 100 TL。'},
+    {n:'Sunset / Balloon Viewpoint', cn:'日出日落观景台', q:'Sunset+Point+Göreme', r:'4.7', rc:'2400+',
+     h:'24 小时', t:'约 30–60 TL', s:'1 小时', p:'日出前 05:15 到位，气球升空时最壮观',
+     c:'台上有小咖啡摊', st:'Göreme 镇内步行上坡约 20 分钟',
+     tip:'气球是否升空由当日气象许可决定，取消并不罕见——把它当作 Day 5 的备选观景点。'},
+    {n:'Uçhisar Photo spot', cn:'城堡后侧谷地 · 免费', q:'Uchisar+Photo+spot+Cappadocia', r:'4.7', rc:'812',
+     h:'全天', t:'免费', s:'30–45 分钟', p:'仙人烟囱与废弃洞穴屋，光线柔和时最好',
+     c:'谷边有洞穴咖啡馆', st:'Uçhisar Castle 背后步行可达',
+     tip:'穿过城堡背后就是这片免费谷地，可随意走进废弃洞穴屋和岩柱间。没有铺装步道，注意脚下。'},
+    {n:'Göreme Panorama View', cn:'格雷梅全景观景丘', q:'Göreme+Panorama+View', r:'4.7', rc:'882',
+     h:'全天', t:'免费（部分带咖啡摊）', s:'30 分钟', p:'俯瞰全镇，清晨看气球升空',
+     c:'台上有咖啡与露营地', st:'Göreme 镇边步行上坡',
+     tip:'Day 5 早上看气球的点；镇边步行可达，随时能来。'},
+    {n:'Rose Valley 玫瑰谷', cn:'Güllüdere · Day 6 自助徒步', q:'Rose+Valley+Cappadocia', r:'4.7', rc:'—',
+     h:'全天 · 免费', t:'免费', s:'与红谷连走 3–5 小时', p:'下午光线最暖，粉红岩壁',
+     c:'谷内藤蔓下的鲜榨果汁摊', st:'Göreme 经露天博物馆步行 2–3km 到 Meskendir 入口',
+     tip:'藏着几座拜占庭洞窟教堂（Column Church、Haçlı Kilise）。岔路多、几乎没路牌，务必下载离线轨迹，别信咖啡摊的假路标。'},
+    {n:'Red Valley 红谷', cn:'Kızılçukur · 日落最佳', q:'Red+Valley+Park+Cappadocia', r:'4.7', rc:'594',
+     h:'全天 · 免费', t:'免费', s:'与玫瑰谷连走', p:'黄昏岩壁转深红，全区最佳日落之一',
+     c:'谷内果汁茶摊', st:'与玫瑰谷相连，从 Göreme 自助可达',
+     tip:'与玫瑰谷是一条环线。中等强度、几段陡且碎石多，穿抓地好的鞋、每人 1 升水。'},
+    {n:'Ihlara Valley', cn:'伊赫拉拉峡谷 · 需包车/跟团', q:'Ihlara+Valley', r:'—', rc:'峡谷',
+     h:'08:00–18:00', t:'约 €15', s:'谷底徒步约 3.5km',
+     p:'谷底河边的拜占庭洞窟教堂', c:'Belisırma 村河上露天茶座', st:'南边几十公里，无公共交通，需包车或跟 Green Tour',
+     tip:'本次不跟团、没车，这里去不了。若单独包车一日游可串 Derinkuyu 与 Selime。入口到谷底约 380 级台阶。'},
+    {n:'Selime Monastery', cn:'塞利梅修道院 · 需包车/跟团', q:'Selime+Monastery+Cappadocia', r:'4.7', rc:'—',
+     h:'约 08:00–17:00', t:'门票另计', s:'45 分钟–1 小时',
+     p:'大厅立柱与高处平台的谷景', c:'—', st:'Ihlara 峡谷终点附近，需包车或跟团',
+     tip:'像中世纪城堡、星战取景地。与 Ihlara、Derinkuyu 同属南线，没车无法自助。'},
+    {n:'Derinkuyu Underground City', cn:'代林库尤地下城 · 需包车/跟团', q:'Derinkuyu+Underground+City', r:'4.6', rc:'2.5万+',
+     h:'08:00–18:45', t:'约 €13；博物馆通票有效', s:'1–1.5 小时', p:'通风井与石磨门',
+     c:'入口外一排纪念品店', st:'Göreme 车程约 40 分钟，南线，需包车或跟团',
+     tip:'通道窄且低矮，越往下越凉；幽闭恐惧或膝盖不好要慎重。穿包脚的鞋。'}
+  ];
+  var FOOD = [
+    {n:'Old hipodrom cafe restaurant', cn:'Küçük Ayasofya · 酒店对面 · Day 1 晚餐', q:'Old+hipodrom+cafe+restaurant+Istanbul', r:'4.9', rc:'2,349',
+     h:'11:00–24:00 · 每日', t:'₺400–1,400', s:'1.5 小时', p:'—', st:'Kaleci 街，Saruhan 步行 2 分钟',
+     tip:'评论里反复提到餐后免费送红茶和土耳其软糖。也有人说分量对价格偏贵，点餐前看清菜单。'},
+    {n:'Şirvan Sofrası', cn:'Küçük Ayasofya · 营业到深夜', q:'Şirvan+Sofrasi+Restaurant+Istanbul', r:'4.7', rc:'5,002',
+     h:'09:00–01:00（周末到 02:00）', t:'₺400–1,600', s:'1.5 小时', p:'—', st:'Küçük Ayasofya 大街，酒店步行 3 分钟',
+     tip:'菜单很杂（烤肉、意面、披萨都有），适合口味不统一的时候。招牌是 katmer。'},
+    {n:'Nasip Et Kebap', cn:'Kadırga · 本地价 · Day 2 晚餐', q:'Nasip+Et+Kebap+Istanbul', r:'4.8', rc:'3,830',
+     h:'09:00–03:00 · 每日', t:'₺200–400', s:'1 小时', p:'—', st:'Kadırga Limanı 大街，酒店步行 6 分钟',
+     tip:'评论一致说「比清真寺旁边便宜一大截」。Beyti 烤肉和茄子汤评价最高，营业到凌晨 3 点。'},
+    {n:'Mivan Restaurant & Cafe', cn:'Sultanahmet · Day 1 午餐位置最好', q:'Mivan+Restaurant+Cafe+Istanbul', r:'4.9', rc:'9,103',
+     h:'08:30–24:00 · 每日', t:'₺600–1,600', s:'1 小时', p:'—', st:'Piyer Loti 街，在地下水宫与大巴扎之间',
+     tip:'上菜前先送一轮免费开胃菜和热皮塔饼。不供应酒精。正好卡在 Day 1 下午的动线上。'},
+    {n:'Park Kebap Pide & Lahmacun', cn:'Tophane · Day 3 午餐', q:'Park+Kebap+Pide+Lahmacun+Istanbul', r:'4.9', rc:'1,470',
+     h:'11:00–24:00 · 每日', t:'₺200–600', s:'1 小时', p:'—', st:'Lüleciler 大街，加拉塔塔下坡到 Karaköy 的路上',
+     tip:'替代原定的 Tomtom Kebap（周日休息）。现场现擀饼、刚出炉。Beyoğlu 一带同类价格的一半。'},
+    {n:'Seven Hills Restaurant', cn:'Sultanahmet · 天台景观', q:'Seven+Hills+Restaurant+Istanbul', r:'4.5', rc:'1.9万+',
+     h:'08:30–23:00', t:'价位偏高', s:'1.5–2 小时', p:'天台正对蓝色清真寺与圣索菲亚',
+     st:'Sultanahmet（T1），从 Saruhan Hotel 步行可达',
+     tip:'风景是主菜，评价里“景好、偏贵”的说法很一致。日落前后需订位。'},
+    {n:'Hamdi Restaurant', cn:'Eminönü · 老牌烤肉', q:'Hamdi+Restaurant+Istanbul', r:'3.9', rc:'8千+',
+     h:'12:00–24:00', t:'中高', s:'1.5 小时', p:'高层靠窗，金角湾与加拉塔塔',
+     st:'Eminönü（T1），香料市场旁',
+     tip:'名气很大但近年评分已掉到 3.9，招牌菜时段限定、常缺货。去之前先确认想吃的那道当天有没有。'},
+    {n:'Tarihi Sultanahmet Köftecisi Selim Usta', cn:'Sultanahmet · 肉丸老店', q:'Sultanahmet+Köftecisi', r:'4.1', rc:'1万+',
+     h:'10:30–22:30', t:'实惠', s:'45 分钟', p:'—', st:'Sultanahmet（T1），Divanyolu 大街上',
+     tip:'菜单极简：烤肉丸配 piyaz 豆沙拉和米饭。当作景点之间的快速一餐最合适。'},
+    {n:'Dibek', cn:'Göreme · 陶罐烤肉', q:'Dibek+Restaurant+Göreme', r:'3.9', rc:'1200+',
+     h:'以现场为准', t:'偏高', s:'1.5–2 小时', p:'马厩改造的席地坐席',
+     st:'Göreme 镇中心广场旁',
+     tip:'招牌 testi kebabı（陶罐烤肉）需要提前预约，因为要慢炖几小时。份量评价偏小。'},
+    {n:'Topdeck Cave Restaurant', cn:'Göreme · 洞穴家庭餐厅', q:'Topdeck+Cave+Restaurant', r:'4.6', rc:'2000+',
+     h:'17:00–23:30（只做晚餐）', t:'中等', s:'1.5 小时', p:'洞穴内部，老烟囱',
+     st:'Göreme 镇中心步行 5 分钟',
+     tip:'座位少、口碑好，旺季务必提前订位。两家里评价明显更稳的一家。'}
+  ];
+  function sheet(o){
+    var rows = [
+      ['🕒 开放', o.h], ['💰 价格', o.t], ['🚶 建议停留', o.s],
+      ['📷 拍摄', o.p], ['☕ 周边', o.c], ['🚇 交通', o.st]
+    ].filter(function(r){ return r[1] && r[1] !== '—'; });
+    var dl = rows.map(function(r){
+      return '<dt>'+r[0]+'</dt><dd>'+r[1]+'</dd>';
+    }).join('');
+    var rate = o.r === '—' ? '<span class="rate"><i>'+o.rc+'</i></span>'
+                           : '<span class="rate">★ '+o.r+' <i>'+o.rc+'</i></span>';
+    return '<article class="sheet reveal">'
+      + '<div class="sheet-h"><h4>'+o.n+'</h4>'+rate+'</div>'
+      + '<div class="sheet-cn">'+o.cn+'</div>'
+      + '<dl>'+dl+'</dl>'
+      + (o.tip ? '<p class="tip">'+o.tip+'</p>' : '')
+      + '<a class="maplink" href="https://maps.google.com/?q='+o.q+'" target="_blank" rel="noopener">Google Maps ↗</a>'
+      + '</article>';
+  }
+  function fill(id, arr){
+    var el = document.getElementById(id);
+    if(el) el.innerHTML = arr.map(sheet).join('');
+  }
+  fill('istPlaces', IST);
+  fill('capPlaces', CAP);
+  fill('foodPlaces', FOOD);
+
+  // ---- HAVABUS timetable ----
+  var HB_TO = ['03:00','03:30','04:00','04:30','05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00'];
+  var HB_FROM = ['06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','00:00','00:30','01:00','01:30'];
+  function times(id, arr, hi){
+    var el = document.getElementById(id);
+    if(el) el.innerHTML = arr.map(function(t){
+      return '<span'+(t===hi?' class="hi"':'')+'>'+t+'</span>';
+    }).join('');
+  }
+  times('havabusTo', HB_TO, '04:00');
+  times('havabusFrom', HB_FROM, null);
+
+  // ---- reveal ----
+  var rev = new IntersectionObserver(function(entries, obs){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('in'); obs.unobserve(en.target); }
+    });
+  }, {rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ rev.observe(el); });
+
+  // ---- checklist (in-memory only) ----
+  var items = ['护照','信用卡','eSIM','转换插头','Power Bank','相机','SD 卡','太阳镜','防晒'];
+  var state = items.map(function(){ return false; });
+  var list = document.getElementById('list');
+  var cnt = document.getElementById('cnt');
+  var bar = document.getElementById('bar');
+  items.forEach(function(t,i){
+    var row = document.createElement('div');
+    row.className = 'check';
+    row.setAttribute('role','checkbox');
+    row.setAttribute('aria-checked','false');
+    row.tabIndex = 0;
+    row.innerHTML = '<span class="box"></span><span class="lb">'+t+'</span>';
+    function toggle(){
+      state[i] = !state[i];
+      row.classList.toggle('done', state[i]);
+      row.setAttribute('aria-checked', String(state[i]));
+      update();
+    }
+    row.addEventListener('click', toggle);
+    row.addEventListener('keydown', function(e){
+      if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); toggle(); }
+    });
+    list.appendChild(row);
+  });
+  function update(){
+    var done = state.filter(Boolean).length;
+    cnt.textContent = done + ' / ' + items.length;
+    bar.style.width = (done / items.length * 100) + '%';
+  }
+  update();
+})();
+</script>
+</body>
+</html>
