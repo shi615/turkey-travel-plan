@@ -223,6 +223,9 @@ ul.bul li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:
 .check.done .box::after{content:"";position:absolute;left:5px;top:1.5px;width:4px;height:8px;border:solid #fff;border-width:0 1.6px 1.6px 0;transform:rotate(42deg)}
 .check.done .lb{color:var(--ink-35);text-decoration:line-through}
 .lb{font-size:14px}
+.cat{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:30px 0 2px;padding-bottom:9px;border-bottom:1px solid var(--ink-35);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-35)}
+.cat:first-child{margin-top:0}
+.cat .gc{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.06em;color:var(--violet)}
 .progress{display:flex;align-items:baseline;gap:10px;margin-bottom:18px}
 .progress .bar{flex:1;height:2px;background:var(--line);position:relative}
 .progress .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--violet);width:0;transition:width .3s}
@@ -686,7 +689,7 @@ footer{padding:44px 0 0;font-size:12px;color:var(--ink-35);display:flex;justify-
 
 <section id="checklist" data-title="行李清单">
   <div class="sec-head"><span class="num">10</span><h2>行李清单</h2></div>
-  <div class="progress"><span class="c" id="cnt">0 / 9</span><span class="bar"><i id="bar"></i></span></div>
+  <div class="progress"><span class="c" id="cnt">0 / 44</span><span class="bar"><i id="bar"></i></span></div>
   <div id="list"></div>
 </section>
 
@@ -959,34 +962,107 @@ footer{padding:44px 0 0;font-size:12px;color:var(--ink-35);display:flex;justify-
   document.querySelectorAll('.reveal').forEach(function(el){ rev.observe(el); });
 
   // ---- checklist (in-memory only) ----
-  var items = ['护照','信用卡','eSIM','转换插头','Power Bank','相机','SD 卡','太阳镜','防晒'];
+  var groups = [
+    {g:'衣服类', items:[
+      '上衣：皮衣外套 · 羽绒夹克',
+      '下身：牛仔裤 1 · 白裤 1 · 腰带 1',
+      '睡衣一套',
+      '一次性内衣内裤 · 袜子',
+      '裙子',
+      '帽子：鸭舌帽 · 草帽',
+      '包包：红色小包 · 黑色小包',
+      '鞋子：运动鞋 · 皮鞋 · 凉鞋',
+      '首饰',
+      '浴巾（待定）',
+      '头巾',
+      '围巾'
+    ]},
+    {g:'护肤类', items:[
+      '防晒',
+      '化妆品',
+      '基础护肤',
+      '充电式卷发棒',
+      '梳子',
+      '美容仪'
+    ]},
+    {g:'杂物', items:[
+      '药类：止疼 · 维生素 · 止泻药 · 过敏药膏 · 祛痘膏 · 感冒药',
+      '蛋白粉',
+      '眼镜 · 墨镜',
+      '相机及配件 · SD 卡',
+      '阅读器',
+      '公司手机',
+      '充电器 · 充电宝 · 转换插头',
+      '耳机',
+      '太阳伞',
+      '热控片',
+      '水杯',
+      '茶包类'
+    ]},
+    {g:'证件类', items:[
+      '行程 · 酒店 · 机票打印件',
+      '护照 · 在留卡',
+      '土耳其电话卡 · eSIM',
+      '信用卡',
+      '日元现金 2 万左右（待定）'
+    ]},
+    {g:'飞机上物品', items:[
+      '脖套',
+      '眼罩',
+      '唇膏',
+      '喷雾',
+      '压力袜',
+      '一次性拖鞋',
+      '屁垫',
+      '褪黑素',
+      '薄荷香'
+    ]}
+  ];
+  var items = [];
+  groups.forEach(function(gr){ gr.items.forEach(function(t){ items.push(t); }); });
   var state = items.map(function(){ return false; });
   var list = document.getElementById('list');
   var cnt = document.getElementById('cnt');
   var bar = document.getElementById('bar');
-  items.forEach(function(t,i){
-    var row = document.createElement('div');
-    row.className = 'check';
-    row.setAttribute('role','checkbox');
-    row.setAttribute('aria-checked','false');
-    row.tabIndex = 0;
-    row.innerHTML = '<span class="box"></span><span class="lb">'+t+'</span>';
-    function toggle(){
-      state[i] = !state[i];
-      row.classList.toggle('done', state[i]);
-      row.setAttribute('aria-checked', String(state[i]));
-      update();
-    }
-    row.addEventListener('click', toggle);
-    row.addEventListener('keydown', function(e){
-      if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); toggle(); }
+  var idx = 0;
+  groups.forEach(function(gr){
+    var head = document.createElement('div');
+    head.className = 'cat';
+    head.innerHTML = '<span>'+gr.g+'</span><span class="gc"></span>';
+    list.appendChild(head);
+    gr.from = idx;
+    gr.items.forEach(function(t){
+      var i = idx++;
+      var row = document.createElement('div');
+      row.className = 'check';
+      row.setAttribute('role','checkbox');
+      row.setAttribute('aria-checked','false');
+      row.tabIndex = 0;
+      row.innerHTML = '<span class="box"></span><span class="lb">'+t+'</span>';
+      function toggle(){
+        state[i] = !state[i];
+        row.classList.toggle('done', state[i]);
+        row.setAttribute('aria-checked', String(state[i]));
+        update();
+      }
+      row.addEventListener('click', toggle);
+      row.addEventListener('keydown', function(e){
+        if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); toggle(); }
+      });
+      list.appendChild(row);
     });
-    list.appendChild(row);
+    gr.to = idx;
+    gr.gc = head.querySelector('.gc');
   });
   function update(){
     var done = state.filter(Boolean).length;
     cnt.textContent = done + ' / ' + items.length;
     bar.style.width = (done / items.length * 100) + '%';
+    groups.forEach(function(gr){
+      var d = 0;
+      for(var i = gr.from; i < gr.to; i++){ if(state[i]) d++; }
+      gr.gc.textContent = d + ' / ' + (gr.to - gr.from);
+    });
   }
   update();
 })();
