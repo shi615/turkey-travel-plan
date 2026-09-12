@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-lang="zh">
+<html lang="zh-CN" data-lang="zh" class="locked">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -281,9 +281,107 @@ footer{padding:44px 0 0;font-size:12px;color:var(--ink-35);display:flex;justify-
   html{scroll-behavior:auto}
 }
 :focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+
+/* ---------- password gate ---------- */
+html.locked{overflow:hidden}
+html.locked body>*:not(#gate){display:none!important}
+#gate{display:none}
+html.locked #gate{
+  display:flex;position:fixed;inset:0;z-index:200;
+  align-items:center;justify-content:center;
+  padding:28px;background:var(--paper);
+}
+.gate-box{width:100%;max-width:380px}
+.gate-mark{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-35);margin-bottom:18px}
+.gate-box h2{
+  font-family:"Instrument Serif","Songti SC",Georgia,serif;font-weight:400;
+  font-size:clamp(30px,7vw,40px);line-height:1.12;letter-spacing:-.01em;margin-bottom:14px;
+}
+.gate-box h2 em{font-style:italic;color:var(--violet)}
+.gate-sub{font-size:13.5px;color:var(--ink-60);margin-bottom:26px}
+.gate-label{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-35);margin-bottom:8px}
+.gate-row{display:flex;gap:8px}
+#gatePw{
+  flex:1;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:2px;
+  padding:11px 12px;font:inherit;font-size:15px;color:var(--ink);
+}
+#gatePw:focus{outline:none;border-color:var(--violet)}
+.gate-row button{
+  border:1px solid var(--violet);background:var(--violet);color:#fff;border-radius:2px;
+  padding:0 20px;font:inherit;font-size:13px;letter-spacing:.06em;cursor:pointer;transition:opacity .2s;
+}
+.gate-row button:hover{opacity:.85}
+.gate-err{margin-top:12px;font-size:12.5px;color:var(--rose)}
+.gate-remember{display:flex;align-items:center;gap:8px;margin-top:16px;font-size:12.5px;color:var(--ink-60);cursor:pointer}
+.gate-remember input{width:14px;height:14px;accent-color:var(--violet)}
+.gate-box .lang-switch{margin-top:26px}
+.gate-box.shake{animation:gate-shake .4s}
+@keyframes gate-shake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+}
+.foot-right{display:flex;align-items:center;gap:14px}
+.relock{
+  border:1px solid var(--line);background:var(--card);color:var(--ink-60);
+  border-radius:99px;padding:5px 12px;font:inherit;font-size:11.5px;cursor:pointer;transition:.2s;
+}
+.relock:hover{color:var(--violet);border-color:var(--violet)}
+@media print{
+  html.locked #gate{display:none}
+  html.locked body>*:not(#gate){display:none!important}
+  .relock{display:none}
+}
 </style>
+<script>
+/* 访问密码配置 / access gate config —— 只保存摘要，不保存明文密码 */
+window.__GATE__ = {
+  salt: 'tth-gate-v1:',
+  hash: '7c43f0ef81909dd38565723a8ab8063fd48673b1a4d5cff18e59c6528c82d93a',
+  key:  'tth-unlock',
+  days: 30
+};
+(function(){
+  var g = window.__GATE__;
+  try{
+    var raw = localStorage.getItem(g.key);
+    if(raw){
+      var o = JSON.parse(raw);
+      if(o && o.h === g.hash && typeof o.exp === 'number' && o.exp > Date.now()){
+        document.documentElement.classList.remove('locked');
+      }else{
+        localStorage.removeItem(g.key);
+      }
+    }
+  }catch(e){}
+})();
+</script>
 </head>
 <body>
+
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+  <form class="gate-box" id="gateForm" autocomplete="off">
+    <div class="gate-mark">Private · Handbook v1.0</div>
+    <h2 id="gateTitle" data-en="Turkey<br>Travel <em>Handbook</em>">Turkey<br>Travel <em>Handbook</em></h2>
+    <p class="gate-sub" data-en="This handbook is private. Enter the password to read it.">这是一本私人手册，输入密码后阅读。</p>
+    <label class="gate-label" for="gatePw" data-en="Password">密码</label>
+    <div class="gate-row">
+      <input id="gatePw" name="gatePw" type="password" autocomplete="current-password" autofocus>
+      <button type="submit" data-en="Unlock">进入</button>
+    </div>
+    <p class="gate-err" id="gateErr" hidden data-en="Wrong password — try again.">密码不对，再试一次。</p>
+    <label class="gate-remember">
+      <input type="checkbox" id="gateRemember" checked>
+      <span data-en="Remember this device for 30 days">在这台设备上记住 30 天</span>
+    </label>
+    <div class="lang-switch" role="group" aria-label="Language / 语言">
+      <button type="button" data-set-lang="zh">中文</button>
+      <button type="button" data-set-lang="en">EN</button>
+    </div>
+  </form>
+</div>
 
 <nav class="rail" aria-label="章节导航" data-en-aria="Section navigation">
   <div class="rail-mark">Handbook v1.0</div>
@@ -773,10 +871,129 @@ footer{padding:44px 0 0;font-size:12px;color:var(--ink-35);display:flex;justify-
 
 <footer>
   <span>Turkey Travel Handbook · Premium Editorial Edition</span>
-  <span class="mono">v1.0 — 2026.07.23</span>
+  <span class="foot-right">
+    <button type="button" id="relock" class="relock" data-en="Lock">锁定</button>
+    <span class="mono">v1.0 — 2026.07.23</span>
+  </span>
 </footer>
 
 </main>
+<script>
+/* ---------------------------------------------------------------
+   访问密码 / access gate
+
+   · 密码本身不写在文件里，这里只放它的 SHA-256 摘要（见 <head> 的 __GATE__.hash）。
+   · 想换密码：打开浏览器控制台，执行  gateHash('新密码')，
+     把返回的那串 64 位字符填回 <head> 里的 __GATE__.hash 即可。
+   · 页面底部的「锁定」按钮会清掉本机的记住状态，下次打开重新要密码。
+
+   提醒：这是一道门帘，不是加密。正文仍然在 HTML 源码里，
+   会看网页源代码的人绕得过去。要真正不外泄，请把仓库设为 private。
+--------------------------------------------------------------- */
+(function(){
+  function sha256(input){
+    var K=[
+      0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+      0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+      0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+      0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+      0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+      0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+      0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+      0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+    var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+    function rotr(x,n){ return (x>>>n)|(x<<(32-n)); }
+    var b=[], i, j, c;
+    for(i=0;i<input.length;i++){
+      c=input.charCodeAt(i);
+      if(c<0x80){ b.push(c); }
+      else if(c<0x800){ b.push(0xc0|(c>>6),0x80|(c&63)); }
+      else { b.push(0xe0|(c>>12),0x80|((c>>6)&63),0x80|(c&63)); }
+    }
+    var bits=b.length*8;
+    b.push(0x80);
+    while(b.length%64!==56) b.push(0);
+    b.push(0,0,0,0,(bits>>>24)&255,(bits>>>16)&255,(bits>>>8)&255,bits&255);
+    var w=new Array(64);
+    for(i=0;i<b.length;i+=64){
+      for(j=0;j<16;j++){
+        w[j]=(b[i+j*4]<<24)|(b[i+j*4+1]<<16)|(b[i+j*4+2]<<8)|b[i+j*4+3];
+      }
+      for(j=16;j<64;j++){
+        var x=w[j-15], y=w[j-2];
+        var s0=rotr(x,7)^rotr(x,18)^(x>>>3);
+        var s1=rotr(y,17)^rotr(y,19)^(y>>>10);
+        w[j]=(w[j-16]+s0+w[j-7]+s1)|0;
+      }
+      var a=H[0],bb=H[1],cc=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+      for(j=0;j<64;j++){
+        var S1=rotr(e,6)^rotr(e,11)^rotr(e,25);
+        var ch=(e&f)^(~e&g);
+        var t1=(h+S1+ch+K[j]+w[j])|0;
+        var S0=rotr(a,2)^rotr(a,13)^rotr(a,22);
+        var mj=(a&bb)^(a&cc)^(bb&cc);
+        var t2=(S0+mj)|0;
+        h=g; g=f; f=e; e=(d+t1)|0; d=cc; cc=bb; bb=a; a=(t1+t2)|0;
+      }
+      H[0]=(H[0]+a)|0; H[1]=(H[1]+bb)|0; H[2]=(H[2]+cc)|0; H[3]=(H[3]+d)|0;
+      H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0; H[7]=(H[7]+h)|0;
+    }
+    var out='';
+    for(i=0;i<8;i++) out+=('00000000'+(H[i]>>>0).toString(16)).slice(-8);
+    return out;
+  }
+
+  window.gateHash = function(pw){ return sha256(window.__GATE__.salt + String(pw)); };
+
+  var g = window.__GATE__;
+  var form = document.getElementById('gateForm');
+  var pw = document.getElementById('gatePw');
+  var err = document.getElementById('gateErr');
+  var remember = document.getElementById('gateRemember');
+  var root = document.documentElement;
+
+  function unlock(){
+    if(remember && remember.checked){
+      try{
+        localStorage.setItem(g.key, JSON.stringify({h:g.hash, exp:Date.now() + g.days*864e5}));
+      }catch(e){}
+    }
+    root.classList.remove('locked');
+    pw.value = '';
+    window.scrollTo(0,0);
+    window.dispatchEvent(new CustomEvent('gate:unlock'));
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(sha256(g.salt + pw.value) === g.hash){
+      err.hidden = true;
+      unlock();
+    }else{
+      err.hidden = false;
+      form.classList.remove('shake');
+      void form.offsetWidth;
+      form.classList.add('shake');
+      pw.select();
+    }
+  });
+
+  pw.addEventListener('input', function(){ err.hidden = true; });
+
+  if(root.classList.contains('locked')){
+    try{ pw.focus(); }catch(e){}
+  }
+
+  var relock = document.getElementById('relock');
+  if(relock){
+    relock.addEventListener('click', function(){
+      try{ localStorage.removeItem(g.key); }catch(e){}
+      location.reload();
+    });
+  }
+})();
+</script>
+
 <script>
 (function(){
   // ---- language state ----
@@ -797,6 +1014,12 @@ footer{padding:44px 0 0;font-size:12px;color:var(--ink-35);display:flex;justify-
   function observeReveals(root){
     (root || document).querySelectorAll('.reveal:not(.in)').forEach(function(el){ rev.observe(el); });
   }
+  // 解锁前正文是 display:none，不会触发 IntersectionObserver，解锁后重新观察一次
+  window.addEventListener('gate:unlock', function(){
+    document.querySelectorAll('.reveal:not(.in)').forEach(function(el){
+      rev.unobserve(el); rev.observe(el);
+    });
+  });
 
   // ---- nav generation ----
   var secs = Array.prototype.slice.call(document.querySelectorAll('section[data-title]'));
