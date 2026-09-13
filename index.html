@@ -133,6 +133,22 @@ h3{font-size:14px;font-weight:600;letter-spacing:.02em;margin-bottom:10px}
 .sub-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-35);margin:34px 0 14px}
 .sub-label:first-child{margin-top:0}
 
+/* ---------- 行程动画 / journey animation ---------- */
+.journey{
+  position:relative;background:#070E1A;border:1px solid #0E1726;
+  aspect-ratio:16/10;max-height:70vh;min-height:400px;overflow:hidden;
+}
+.journey iframe{display:block;width:100%;height:100%;border:0}
+.journey-note{
+  display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:space-between;
+  margin-top:12px;font-size:12px;color:var(--ink-35);
+}
+.journey-note a{color:var(--violet);text-decoration:none;border-bottom:1px solid var(--violet-soft)}
+.journey-note a:hover{border-bottom-color:var(--violet)}
+@media (max-width:720px){
+  .journey{aspect-ratio:3/4;min-height:0;max-height:none}
+}
+
 /* stat strip */
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
 .stats div{background:var(--card);padding:18px 16px}
@@ -330,6 +346,7 @@ html.locked #gate{
 }
 .relock:hover{color:var(--violet);border-color:var(--violet)}
 @media print{
+  #journey{display:none}
   html.locked #gate{display:none}
   html.locked body>*:not(#gate){display:none!important}
   .relock{display:none}
@@ -445,8 +462,20 @@ window.__GATE__ = {
   </div>
 </header>
 
+<section id="journey" data-title="行程动画" data-title-en="In Motion">
+  <div class="sec-head"><span class="num">01</span><h2 data-en="Journey in Motion">行程动画</h2></div>
+  <p class="lead" data-en="Eight days compressed into two minutes: the route draws itself across the map, one day and one leg at a time. Press play, or drag the timeline straight to any day.">把八天压缩成两分钟：路线在地图上一天天、一段段画出来。可以直接播放，也可以拖动时间轴跳到任意一天。</p>
+  <div class="journey reveal">
+    <iframe id="journeyFrame" src="journey.html" title="土耳其行程动画 / Turkey journey animation" loading="lazy"></iframe>
+  </div>
+  <div class="journey-note">
+    <span data-en="Click the animation first, then: Space to play or pause · ← → to scrub">先点一下动画，然后：空格 播放 / 暂停 · ← → 快退快进</span>
+    <a href="journey.html" target="_blank" rel="noopener" data-en="Open full screen ↗">全屏打开 ↗</a>
+  </div>
+</section>
+
 <section id="overview" data-title="行程概览" data-title-en="Overview">
-  <div class="sec-head"><span class="num">01</span><h2 data-en="Trip Overview">行程概览</h2></div>
+  <div class="sec-head"><span class="num">02</span><h2 data-en="Trip Overview">行程概览</h2></div>
   <div class="stats reveal" data-en="&lt;div&gt;&lt;div class='v'&gt;8&lt;/div&gt;&lt;div class='k'&gt;days / 7 nights&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div class='v'&gt;2&lt;/div&gt;&lt;div class='k'&gt;cities&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div class='v'&gt;6&lt;/div&gt;&lt;div class='k'&gt;flight legs&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div class='v'&gt;3&lt;/div&gt;&lt;div class='k'&gt;hotels&lt;/div&gt;&lt;/div&gt;">
     <div><div class="v">8</div><div class="k">天 / 7 夜</div></div>
     <div><div class="v">2</div><div class="k">座城市</div></div>
@@ -475,7 +504,7 @@ window.__GATE__ = {
 </section>
 
 <section id="flights" data-title="航班" data-title-en="Flights">
-  <div class="sec-head"><span class="num">02</span><h2 data-en="Flights">航班</h2></div>
+  <div class="sec-head"><span class="num">03</span><h2 data-en="Flights">航班</h2></div>
   <p class="lead" data-en="The international legs run on Thai Airways via Bangkok; the domestic legs shuttle between SAW and NAV. The return flight leaves from IST, so allow roughly 2 hours for HAVAIST that morning.">国际段走泰航曼谷转机，土耳其境内段由 SAW 往返 NAV。回程当天从 IST 出发，需预留 HAVAIST 约 2 小时。</p>
 
   <div class="sub-label" data-en="Outbound · 9/17 → 9/18">去程 · 9/17 → 9/18</div>
@@ -534,7 +563,7 @@ window.__GATE__ = {
 </section>
 
 <section id="hotels" data-title="酒店" data-title-en="Hotels">
-  <div class="sec-head"><span class="num">03</span><h2 data-en="Hotels">酒店</h2></div>
+  <div class="sec-head"><span class="num">04</span><h2 data-en="Hotels">酒店</h2></div>
   <div class="cards g2">
     <div class="card reveal">
       <div class="kicker" data-en="Istanbul · Old City">Istanbul · 老城</div>
@@ -572,7 +601,7 @@ window.__GATE__ = {
 </section>
 
 <section id="itinerary" data-title="每日行程" data-title-en="Day by Day">
-  <div class="sec-head"><span class="num">04</span><h2 data-en="Day by Day">每日行程</h2></div>
+  <div class="sec-head"><span class="num">05</span><h2 data-en="Day by Day">每日行程</h2></div>
   <p class="lead" data-en="Violet marks the Istanbul leg, rose the Cappadocia leg. Only the key stops are listed for each day — adjust on the ground as energy allows.">紫色为伊斯坦布尔段，玫瑰色为卡帕多奇亚段。每天只标关键节点，现场按体力调整。</p>
 
   <div class="day reveal">
@@ -657,7 +686,7 @@ window.__GATE__ = {
 </section>
 
 <section id="places" data-title="景点" data-title-en="Sights">
-  <div class="sec-head"><span class="num">05</span><h2 data-en="Sights">景点</h2></div>
+  <div class="sec-head"><span class="num">06</span><h2 data-en="Sights">景点</h2></div>
   <p class="lead" data-en="One uniform data sheet per place: map, rating, opening hours, tickets, how long to stay, the best hour for photos, and the nearest stop. Ratings and hours come from Google Maps; prices are the 2026 foreign-visitor rates — confirm them again before you leave.">每个地点一张统一资料卡：地图、评分、开放时间、门票、建议停留、拍摄时段与最近车站。评分与营业时间来自 Google Maps，票价为 2026 年外国游客价，出发前请再确认一次。</p>
 
   <div class="alert reveal">
@@ -675,14 +704,14 @@ window.__GATE__ = {
 </section>
 
 <section id="food" data-title="餐厅" data-title-en="Restaurants">
-  <div class="sec-head"><span class="num">06</span><h2 data-en="Restaurants">餐厅</h2></div>
+  <div class="sec-head"><span class="num">07</span><h2 data-en="Restaurants">餐厅</h2></div>
   <p class="lead" data-en="A shortlist of candidates. The ratings vary widely, so it is worth a look at the actual reviews and price range before you order.">五家备选。评分差距不小，点单前值得先看一眼实际口碑与价格区间。</p>
   <div class="sheets" id="foodPlaces"></div>
   <p class="src" data-en="Ratings and hours from Google Maps.">评分与营业时间来自 Google Maps。</p>
 </section>
 
 <section id="transport" data-title="交通" data-title-en="Transport">
-  <div class="sec-head"><span class="num">07</span><h2 data-en="Transport">交通</h2></div>
+  <div class="sec-head"><span class="num">08</span><h2 data-en="Transport">交通</h2></div>
   <div class="alert reveal">
     <div class="alert-t" data-en="Day 1 arrival plan · HAVAİST HVL-13">Day 1 到达方案 · HAVAİST HVL-13</div>
     <p data-en="IST → Çatladıkapı (Sultanahmet) direct, with Saruhan Hotel a few minutes' walk from the last stop. Stop order: Çatladıkapı (the İETT stop opposite Nikah Sarayı) · Sirkeci · Şişhane 6 · Türabi Baba Parkı · Hasköy Parkı · Miniatürk · İstanbul Havalimanı. The fare is 470 TL, bought on the website or app, or on board with an Istanbulkart, credit card or debit card — &lt;strong&gt;no cash is taken on board&lt;/strong&gt;. The boarding point is on level -2, below arrivals.">IST → Çatladıkapı（Sultanahmet）直达，终点距 Saruhan Hotel 步行几分钟。停靠顺序：Çatladıkapı（Nikah Sarayı 对面 İETT 站）· Sirkeci · Şişhane 6 · Türabi Baba Parkı · Hasköy Parkı · Miniatürk · İstanbul Havalimanı。票价 470 TL，官网／App 购票，或上车用 Istanbulkart、信用卡、借记卡支付——<strong>车上不收现金</strong>。乘车点在到达层下方 -2 楼。</p>
@@ -729,7 +758,7 @@ window.__GATE__ = {
 </section>
 
 <section id="balloon" data-title="热气球与摄影" data-title-en="Balloon &amp; Photography">
-  <div class="sec-head"><span class="num">08</span><h2 data-en="Balloon &amp; Photography">热气球与摄影</h2></div>
+  <div class="sec-head"><span class="num">09</span><h2 data-en="Balloon &amp; Photography">热气球与摄影</h2></div>
   <div class="two">
     <div class="panel reveal">
       <div class="t" data-en="Hot Air Balloon · Day 5, before dawn">Hot Air Balloon · Day 5 凌晨</div>
@@ -754,7 +783,7 @@ window.__GATE__ = {
 </section>
 
 <section id="practical" data-title="实用信息" data-title-en="Practical">
-  <div class="sec-head"><span class="num">09</span><h2 data-en="Practical Notes">实用信息</h2></div>
+  <div class="sec-head"><span class="num">10</span><h2 data-en="Practical Notes">实用信息</h2></div>
 
   <div class="sub-label" data-en="Weather">天气</div>
   <div class="two">
@@ -824,13 +853,13 @@ window.__GATE__ = {
 </section>
 
 <section id="checklist" data-title="行李清单" data-title-en="Packing List">
-  <div class="sec-head"><span class="num">10</span><h2 data-en="Packing List">行李清单</h2></div>
+  <div class="sec-head"><span class="num">11</span><h2 data-en="Packing List">行李清单</h2></div>
   <div class="progress"><span class="c" id="cnt">0 / 44</span><span class="bar"><i id="bar"></i></span></div>
   <div id="list"></div>
 </section>
 
 <section id="production" data-title="制作进度" data-title-en="Production">
-  <div class="sec-head"><span class="num">11</span><h2 data-en="Production Status">制作进度</h2></div>
+  <div class="sec-head"><span class="num">12</span><h2 data-en="Production Status">制作进度</h2></div>
   <p class="lead" data-en="The finished handbook will run 70–80 pages across 17 chapters, built chapter by chapter and merged into Turkey Travel Handbook — Premium Editorial Edition v1.0. Violet marks the chapters already done.">最终手册预计 70–80 页、17 章，按章制作后合并为《Turkey Travel Handbook — Premium Editorial Edition v1.0》。紫底为已完成章节。</p>
   <div class="chapters reveal">
     <div class="done"><span class="cn">00</span>Cover</div>
@@ -958,6 +987,8 @@ window.__GATE__ = {
         localStorage.setItem(g.key, JSON.stringify({h:g.hash, exp:Date.now() + g.days*864e5}));
       }catch(e){}
     }
+    // 本次浏览器会话内，journey.html 等子页面也视为已解锁
+    try{ sessionStorage.setItem(g.key, g.hash); }catch(e){}
     root.classList.remove('locked');
     pw.value = '';
     window.scrollTo(0,0);
@@ -1020,6 +1051,14 @@ window.__GATE__ = {
       rev.unobserve(el); rev.observe(el);
     });
   });
+
+  // ---- journey animation (iframe) ----
+  var journeyFrame = document.getElementById('journeyFrame');
+  function syncJourneyLang(){
+    if(!journeyFrame || !journeyFrame.contentWindow) return;
+    try{ journeyFrame.contentWindow.postMessage({type:'tth-lang', lang:LANG}, '*'); }catch(e){}
+  }
+  if(journeyFrame) journeyFrame.addEventListener('load', syncJourneyLang);
 
   // ---- nav generation ----
   var secs = Array.prototype.slice.call(document.querySelectorAll('section[data-title]'));
@@ -1581,6 +1620,7 @@ window.__GATE__ = {
     });
     renderStatic();
     renderNav();
+    syncJourneyLang();
     renderSheets();
     renderChecklist();
     update();
